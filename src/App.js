@@ -18,6 +18,8 @@ class App extends Component {
       query : "",
       refresh : ""
     };
+
+    this.Submitdata = this.Submitdata.bind(this);
   }
 
   handleInputChange = (event) => {
@@ -35,7 +37,8 @@ class App extends Component {
   }
 
   fetchtoys(){
-
+    console.log("fetch called");
+    console.log(this);
     fetch('http://localhost:8000/toys')
     .then(res => res.json())
      .then((data => {
@@ -94,15 +97,15 @@ class App extends Component {
 
   componentDidUpdate()
   {
-    this.fetchtoys();
+    
   }
  
   
-  Submitdata(event)
+  Submitdata =(event)=>
   {
        event.preventDefault();
       var data = new FormData(event.target);
-          
+       
        console.log(data.get('name'));
 
        fetch ('http://localhost:8000/toy',{
@@ -112,7 +115,9 @@ class App extends Component {
             "Content-Type" : "application/json"
         },
         body : JSON.stringify({"name" : data.get('name') , "featured" : data.get("featured") , "rating" : data.get("rating")})
-    })
+    }).then(() => { this.fetchtoys()
+      
+    });
 
   
    
@@ -131,31 +136,37 @@ class App extends Component {
      let toyCards  = this.state.ftoyData.map(toy => {
        return (
          <div className = "col-md-4">
-         <Cards toy = {toy}/>
+         <Cards toy = {toy} parent = {this}/>
          </div>
        )
      })
   return (
-    <div>
-      <h1 align = "center">Greatest toy store</h1>
+    <div className  = "container">
+        <div className = "text-center header mt-3">Greatest Toys Store</div>
+        <div className = "text-center headerdesc"> This is a collection of the largest and the baddest toys </div>
+        <div className = "mt-2 pt-2">
+          <input placeholder = "What are you looking for?" onChange={this.handleInputChange} className ="form-control form-control-sm col-md-3 float-left  m-2" ></input>
+          <select className= "form-control form-control-sm float-left col-md-2 m-2" >
+                <option>Featured</option>
+                <option>Rating</option>
+            </select><br></br><br></br>
+            <label > Filter by Brand :  </label><br></br>
+            <label className="checkbox-inline p-2"><input  type="checkbox" value=""/> DC Comics</label>
+            <label className="checkbox-inline p-2"><input  type="checkbox" value=""/> Marvel</label>
+          <button className="btn btn-danger float-right" onClick={this.displayform}>Add</button>
+        </div>
+
+        <div className = "mt-3">
       
-     <div className = "container mt-5">
-            <form>
-                <input type="text" className = "form-control" id="filter" placeholder="Search for..."  onChange={this.handleInputChange}/>
-            </form>
-       <div className = "mt-3">
-    
-       <form onSubmit = {this.Submitdata}>
-      {toyform}
-      </form>
-      <button className = "btn btn-danger float-right" onClick={this.displayform}>Add</button>
-      </div>
-       <div className = "row mt-5">
-      {toyCards}
-      </div>
-      </div>             
- 
-    </div>
+      <form onSubmit = {this.Submitdata}>
+     {toyform}
+     </form>
+     </div>
+      <div className = "row mt-5">
+     {toyCards}
+     </div>
+     </div>      
+     
    
   );
   

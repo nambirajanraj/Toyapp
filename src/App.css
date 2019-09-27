@@ -1,4 +1,23 @@
 .App {
   text-align: center;
 }
+.header{
+  
+  font-family: Playfair Display;
+  font-style: normal;
+ font-weight: normal;
+font-size: 45px;
+ line-height: 56px;
+ }
+ .headerdesc{
+
+  font-family: Raleway;
+font-style: normal;
+font-weight: normal;
+font-size: 15px;
+line-height: 18px;
+ }
+ .container{
+     max-width: 90%;
+ }
 

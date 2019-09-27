@@ -6,6 +6,7 @@ class Cards extends Component {
         this.state = {
             displayform : false 
         }
+        this.deletetoy = this.deletetoy.bind(this);
     }
 
     displayform = () => {
@@ -13,7 +14,7 @@ class Cards extends Component {
            displayform : !this.state.displayform
         })
      }
-     updateData(event)
+     updateData = (event) =>
      {
           event.preventDefault();
          var data = new FormData(event.target);
@@ -27,7 +28,9 @@ class Cards extends Component {
                "Content-Type" : "application/json"
            },
            body : JSON.stringify({"name" : data.get('name') , "rating" : data.get("rating")})
-       })
+       }).then(() => { this.props.parent.fetchtoys();
+              
+       });
    
        
       
@@ -51,7 +54,7 @@ class Cards extends Component {
         
         
         return (
-            <div className = "col-md-4 mt-5">
+            <div className = "col-md-3 mt-5">
             <Card style={{ width: '18rem' }}>
             <CardImg variant="top" src="" />
             <CardBody>
@@ -72,7 +75,10 @@ class Cards extends Component {
         )
     }
 
-    deletetoy(id)
+    
+    
+
+    deletetoy = (id) =>
     {
        fetch ('http://localhost:8000/toy',{
            method : "DELETE",
@@ -81,7 +87,9 @@ class Cards extends Component {
                "Content-Type" : "application/json"
            },
            body : JSON.stringify({"id" : id})
-       })
+       }).then(() => { this.props.parent.fetchtoys();
+              
+       });
 
        
     
