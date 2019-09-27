@@ -41,11 +41,11 @@ class Cards extends Component {
         { var updateform =(
         
          <div className = "Updateform">
-             <label>Rating :</label>
-             <input type= "text" className = "form-control col-md-4" name="rating"></input>
+        
+             <input type= "text" className = "form-control col-md-4 float-left " name="rating"></input>
              <input type= "hidden" name="name" value = {this.props.toy.name}></input>
-             <button type= "submit" className = "btn btn-primary">ok</button>
-           
+             <button type= "submit" className = "btn btn-primary"> ok</button> 
+             <br></br>
             
          </div>)}
      
