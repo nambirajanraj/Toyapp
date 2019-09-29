@@ -89,6 +89,53 @@ class App extends Component {
 
 }
 
+   brandfilter = (event) =>{
+      
+    let responseData =[];
+    let t  = this.state.toyData;
+      console.log(event.target.id);
+      if(event.target.checked && event.target.id.includes("dcc"))
+      {
+          document.getElementById("mc").checked =false;
+           let j =0 ;
+          for(let i=0; i< t.length ; i++ )
+          {
+             if(t[i].category.includes("DC"))
+             {
+              responseData[j] = t[i];
+              j++;
+             }
+          }
+          console.log(responseData);
+          this.setState ({
+            ftoyData : responseData
+          })
+      }
+      else if(event.target.checked && event.target.id.includes("mc"))
+      {
+        document.getElementById("dcc").checked =false;
+        let j =0 ;
+        for(let i=0; i< t.length ; i++ )
+        {
+           if(t[i].category.includes("Marvel"))
+           {
+            responseData[j] = t[i];
+            j++;
+           }
+        }
+        console.log(responseData);
+        this.setState ({
+          ftoyData : responseData
+        })
+      }
+      else {
+         
+          this.setState({
+            ftoyData : t
+          })
+      }
+   }
+
   
   componentDidMount()
   {
@@ -106,7 +153,7 @@ class App extends Component {
        event.preventDefault();
       var data = new FormData(event.target);
        
-       console.log(data.get('name'));
+       console.log(data.get('category'));
 
        fetch ('http://localhost:8000/toy',{
         method : "POST",
@@ -114,7 +161,7 @@ class App extends Component {
         headers : {
             "Content-Type" : "application/json"
         },
-        body : JSON.stringify({"name" : data.get('name') , "featured" : data.get("featured") , "rating" : data.get("rating")})
+        body : JSON.stringify({"name" : data.get('name') , "featured" : data.get("featured") , "rating" : data.get("rating") , "category" : data.get("category")})
     }).then(() => { this.fetchtoys()
       
     });
@@ -151,8 +198,8 @@ class App extends Component {
                 <option>Rating</option>
             </select><br></br><br></br>
             <label > Filter by Brand :  </label><br></br>
-            <label className="checkbox-inline p-2"><input  type="checkbox" value=""/> DC Comics</label>
-            <label className="checkbox-inline p-2"><input  type="checkbox" value=""/> Marvel</label>
+            <label className="checkbox-inline p-2"><input  type="checkbox" id ="dcc" onClick={this.brandfilter} value=""/> DC Comics</label>
+            <label className="checkbox-inline p-2"><input  type="checkbox" id = "mc" onClick={this.brandfilter} value="" /> Marvel</label>
           <button className="btn btn-danger float-right" onClick={this.displayform}>Add</button>
         </div>
 
